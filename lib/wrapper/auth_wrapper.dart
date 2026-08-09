@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_ji/screens/home_screen.dart';
+import 'package:todo_ji/screens/dashborad_screen.dart';
 import 'package:todo_ji/screens/login_screen.dart';
 
 class AuthWrapper extends StatelessWidget {
@@ -20,7 +20,7 @@ class AuthWrapper extends StatelessWidget {
 
         // User already logged in
         if (snapshot.hasData) {
-          return const HomeScreen();
+          return const DashboardScreen();
         }
 
         // User not logged in
