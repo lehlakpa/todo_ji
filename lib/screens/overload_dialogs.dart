@@ -1,233 +1,232 @@
+// import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
+// class OverlayDialogs extends StatelessWidget {
+//   const OverlayDialogs({super.key});
+// a
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Dialogs'),
+//       ),
+//       body: ListView(
+//         padding: const EdgeInsets.all(16),
+//         children: [
+//           ListTile(
+//             leading: const Icon(Icons.help_outline),
+//             title: const Text('Confirmation Dialog'),
+//             subtitle: const Text('Ask the user to confirm an action'),
+//             onTap: () => _showConfirmDialog(context),
+//           ),
 
-class OverlayDialogs extends StatelessWidget {
-  const OverlayDialogs({super.key});
+//           ListTile(
+//             leading: const Icon(Icons.edit),
+//             title: const Text('Input Dialog'),
+//             subtitle: const Text('Get text input from the user'),
+//             onTap: () => _showInputDialog(context),
+//           ),
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dialogs'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          ListTile(
-            leading: const Icon(Icons.help_outline),
-            title: const Text('Confirmation Dialog'),
-            subtitle: const Text('Ask the user to confirm an action'),
-            onTap: () => _showConfirmDialog(context),
-          ),
+//           ListTile(
+//             leading: const Icon(Icons.list),
+//             title: const Text('Multi-Choice Dialog'),
+//             subtitle: const Text('Select one option'),
+//             onTap: () => _showMultiChoiceDialog(context),
+//           ),
 
-          ListTile(
-            leading: const Icon(Icons.edit),
-            title: const Text('Input Dialog'),
-            subtitle: const Text('Get text input from the user'),
-            onTap: () => _showInputDialog(context),
-          ),
+//           ListTile(
+//             leading: const Icon(Icons.hourglass_top),
+//             title: const Text('Loading Dialog'),
+//             subtitle: const Text('Show progress during an operation'),
+//             onTap: () => _showLoadingDialog(context),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
 
-          ListTile(
-            leading: const Icon(Icons.list),
-            title: const Text('Multi-Choice Dialog'),
-            subtitle: const Text('Select one option'),
-            onTap: () => _showMultiChoiceDialog(context),
-          ),
+//   // --------------------------------------------------
+//   // 1. CONFIRMATION DIALOG
+//   // --------------------------------------------------
 
-          ListTile(
-            leading: const Icon(Icons.hourglass_top),
-            title: const Text('Loading Dialog'),
-            subtitle: const Text('Show progress during an operation'),
-            onTap: () => _showLoadingDialog(context),
-          ),
-        ],
-      ),
-    );
-  }
+//   Future<void> _showConfirmDialog(BuildContext context) async {
+//     final result = await showDialog<bool>(
+//       context: context,
+//       builder: (ctx) {
+//         return AlertDialog(
+//           title: const Text('Confirm'),
+//           content: const Text(
+//             'Are you sure you want to proceed?',
+//           ),
+//           actions: [
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.pop(ctx, false);
+//               },
+//               child: const Text('Cancel'),
+//             ),
+//             FilledButton(
+//               onPressed: () {
+//                 Navigator.pop(ctx, true);
+//               },
+//               child: const Text('Confirm'),
+//             ),
+//           ],
+//         );
+//       },
+//     );
 
-  // --------------------------------------------------
-  // 1. CONFIRMATION DIALOG
-  // --------------------------------------------------
+//     if (!context.mounted) return;
 
-  Future<void> _showConfirmDialog(BuildContext context) async {
-    final result = await showDialog<bool>(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          title: const Text('Confirm'),
-          content: const Text(
-            'Are you sure you want to proceed?',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx, false);
-              },
-              child: const Text('Cancel'),
-            ),
-            FilledButton(
-              onPressed: () {
-                Navigator.pop(ctx, true);
-              },
-              child: const Text('Confirm'),
-            ),
-          ],
-        );
-      },
-    );
+//     if (result == true) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         const SnackBar(
+//           content: Text('Confirmed successfully'),
+//         ),
+//       );
+//     }
+//   }
 
-    if (!context.mounted) return;
+//   // --------------------------------------------------
+//   // 2. INPUT DIALOG
+//   // --------------------------------------------------
 
-    if (result == true) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Confirmed successfully'),
-        ),
-      );
-    }
-  }
+//   Future<void> _showInputDialog(BuildContext context) async {
+//     final controller = TextEditingController();
 
-  // --------------------------------------------------
-  // 2. INPUT DIALOG
-  // --------------------------------------------------
+//     final result = await showDialog<String>(
+//       context: context,
+//       builder: (ctx) {
+//         return AlertDialog(
+//           title: const Text('Enter name'),
+//           content: TextField(
+//             controller: controller,
+//             autofocus: true,
+//             textInputAction: TextInputAction.done,
+//             decoration: const InputDecoration(
+//               hintText: 'Your name',
+//               border: OutlineInputBorder(),
+//             ),
+//           ),
+//           actions: [
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.pop(ctx);
+//               },
+//               child: const Text('Cancel'),
+//             ),
+//             FilledButton(
+//               onPressed: () {
+//                 final name = controller.text.trim();
 
-  Future<void> _showInputDialog(BuildContext context) async {
-    final controller = TextEditingController();
+//                 if (name.isEmpty) {
+//                   return;
+//                 }
 
-    final result = await showDialog<String>(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          title: const Text('Enter name'),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(
-              hintText: 'Your name',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx);
-              },
-              child: const Text('Cancel'),
-            ),
-            FilledButton(
-              onPressed: () {
-                final name = controller.text.trim();
+//                 Navigator.pop(ctx, name);
+//               },
+//               child: const Text('OK'),
+//             ),
+//           ],
+//         );
+//       },
+//     );
 
-                if (name.isEmpty) {
-                  return;
-                }
+//     controller.dispose();
 
-                Navigator.pop(ctx, name);
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+//     if (!context.mounted) return;
 
-    controller.dispose();
+//     if (result != null) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//           content: Text('Hello, $result'),
+//         ),
+//       );
+//     }
+//   }
 
-    if (!context.mounted) return;
+//   // --------------------------------------------------
+//   // 3. MULTI-CHOICE DIALOG
+//   // --------------------------------------------------
 
-    if (result != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Hello, $result'),
-        ),
-      );
-    }
-  }
+//   Future<void> _showMultiChoiceDialog(BuildContext context) async {
+//     final result = await showDialog<String>(
+//       context: context,
+//       builder: (ctx) {
+//         return AlertDialog(
+//           title: const Text('Select option'),
+//           content: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               ListTile(
+//                 title: const Text('Option A'),
+//                 onTap: () {
+//                   Navigator.pop(ctx, 'A');
+//                 },
+//               ),
+//               ListTile(
+//                 title: const Text('Option B'),
+//                 onTap: () {
+//                   Navigator.pop(ctx, 'B');
+//                 },
+//               ),
+//               ListTile(
+//                 title: const Text('Option C'),
+//                 onTap: () {
+//                   Navigator.pop(ctx, 'C');
+//                 },
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
 
-  // --------------------------------------------------
-  // 3. MULTI-CHOICE DIALOG
-  // --------------------------------------------------
+//     if (!context.mounted) return;
 
-  Future<void> _showMultiChoiceDialog(BuildContext context) async {
-    final result = await showDialog<String>(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          title: const Text('Select option'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: const Text('Option A'),
-                onTap: () {
-                  Navigator.pop(ctx, 'A');
-                },
-              ),
-              ListTile(
-                title: const Text('Option B'),
-                onTap: () {
-                  Navigator.pop(ctx, 'B');
-                },
-              ),
-              ListTile(
-                title: const Text('Option C'),
-                onTap: () {
-                  Navigator.pop(ctx, 'C');
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
+//     if (result != null) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//           content: Text('Selected Option $result'),
+//         ),
+//       );
+//     }
+//   }
 
-    if (!context.mounted) return;
+//   // --------------------------------------------------
+//   // 4. LOADING DIALOG
+//   // --------------------------------------------------
 
-    if (result != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Selected Option $result'),
-        ),
-      );
-    }
-  }
+//   Future<void> _showLoadingDialog(BuildContext context) async {
+//     showDialog(
+//       context: context,
+//       barrierDismissible: false,
+//       builder: (ctx) {
+//         return const AlertDialog(
+//           content: Row(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               CircularProgressIndicator(),
+//               SizedBox(width: 24),
+//               Text('Loading...'),
+//             ],
+//           ),
+//         );
+//       },
+//     );
 
-  // --------------------------------------------------
-  // 4. LOADING DIALOG
-  // --------------------------------------------------
+//     await Future.delayed(
+//       const Duration(seconds: 2),
+//     );
 
-  Future<void> _showLoadingDialog(BuildContext context) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) {
-        return const AlertDialog(
-          content: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(width: 24),
-              Text('Loading...'),
-            ],
-          ),
-        );
-      },
-    );
+//     if (!context.mounted) return;
 
-    await Future.delayed(
-      const Duration(seconds: 2),
-    );
+//     Navigator.pop(context);
 
-    if (!context.mounted) return;
-
-    Navigator.pop(context);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Loading completed'),
-      ),
-    );
-  }
-}
-```
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       const SnackBar(
+//         content: Text('Loading completed'),
+//       ),
+//     );
+//   }
+// }
+// ```

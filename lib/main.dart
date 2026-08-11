@@ -8,6 +8,7 @@ import 'package:todo_ji/providers/lassan_providers.dart';
 import 'package:todo_ji/providers/light_provider.dart';
 import 'package:todo_ji/providers/task_providers.dart';
 import 'package:todo_ji/screens/on_boading_screen.dart';
+import 'package:todo_ji/screens/upload_image.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OnboardingScreen(),
+      home: CloudinaryUploadPage(),
     );
   }
 }
