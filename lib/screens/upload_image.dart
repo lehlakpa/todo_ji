@@ -13,10 +13,6 @@ class CloudinaryUploadPage extends StatefulWidget {
 }
 
 class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
-  // =========================================================
-  // VARIABLES
-  // =========================================================
-
   final ImagePicker _picker = ImagePicker();
 
   XFile? _selectedImage;
@@ -27,21 +23,9 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
 
   bool _isUploading = false;
 
-  // =========================================================
-  // CLOUDINARY CONFIG
-  // =========================================================
-
-  // Your Cloudinary Cloud Name
   final String cloudName = 'dglxnraim';
 
-  // IMPORTANT:
-  // This preset MUST be configured as UNSIGNED
-  // in Cloudinary Console.
   final String uploadPreset = 'flutter_coffee_test';
-
-  // =========================================================
-  // PICK IMAGE
-  // =========================================================
 
   Future<void> pickImage() async {
     try {
@@ -49,8 +33,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
         source: ImageSource.gallery,
         imageQuality: 85,
       );
-
-      // User cancelled image picker
       if (image == null) {
         return;
       }
@@ -77,12 +59,7 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
     }
   }
 
-  // =========================================================
-  // UPLOAD IMAGE TO CLOUDINARY
-  // =========================================================
-
   Future<void> uploadImage() async {
-    // Check image
     if (_selectedImage == null) {
       showMessage('Please select an image first');
       return;
@@ -102,10 +79,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
     });
 
     try {
-      // =====================================================
-      // CLOUDINARY UPLOAD URL
-      // =====================================================
-
       final Uri uploadUrl = Uri.parse(
         'https://api.cloudinary.com/v1_1/'
         '$cloudName/image/upload',
@@ -116,43 +89,12 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
       debugPrint('Cloud Name: $cloudName');
 
       debugPrint('Upload Preset: $uploadPreset');
-
-      // =====================================================
-      // CREATE MULTIPART REQUEST
-      // =====================================================
-
       final http.MultipartRequest request = http.MultipartRequest(
         'POST',
         uploadUrl,
       );
 
-      // =====================================================
-      // UPLOAD PRESET
-      // =====================================================
-
-      // IMPORTANT:
-      //
-      // Cloudinary expects the field name:
-      //
-      // upload_preset
-      //
-      // NOT:
-      //
-      // coffee_products
-      //
-      // NOT:
-      //
-      // flutter_coffee
-      //
-      // The VALUE is your preset name.
-      // =====================================================
-
       request.fields['upload_preset'] = uploadPreset;
-
-      // =====================================================
-      // IMAGE FILE
-      // =====================================================
-
       request.files.add(
         http.MultipartFile.fromBytes(
           'file',
@@ -162,26 +104,8 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
       );
 
       debugPrint('Uploading image...');
-
-      // =====================================================
-      // SEND REQUEST
-      // =====================================================
-
       final http.StreamedResponse response = await request.send();
-
-      // =====================================================
-      // READ RESPONSE
-      // =====================================================
-
       final String responseBody = await response.stream.bytesToString();
-
-      debugPrint('Cloudinary Status: ${response.statusCode}');
-
-      debugPrint('Cloudinary Response: $responseBody');
-
-      // =====================================================
-      // SUCCESS
-      // =====================================================
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(responseBody);
@@ -204,11 +128,7 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
         debugPrint('Uploaded Image URL:');
 
         debugPrint(imageUrl);
-      }
-      // =====================================================
-      // CLOUDINARY ERROR
-      // =====================================================
-      else {
+      } else {
         String errorMessage = 'Upload failed (${response.statusCode})';
 
         try {
@@ -240,10 +160,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
     }
   }
 
-  // =========================================================
-  // SHOW SNACKBAR
-  // =========================================================
-
   void showMessage(String message) {
     if (!mounted) return;
 
@@ -254,10 +170,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
       );
   }
 
-  // =========================================================
-  // CLEAR IMAGE
-  // =========================================================
-
   void clearImage() {
     setState(() {
       _selectedImage = null;
@@ -265,10 +177,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
       _uploadedImageUrl = null;
     });
   }
-
-  // =========================================================
-  // BUILD UI
-  // =========================================================
 
   @override
   Widget build(BuildContext context) {
@@ -285,9 +193,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
 
           children: [
-            // =================================================
-            // IMAGE PREVIEW
-            // =================================================
             Container(
               height: 300,
 
@@ -335,10 +240,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
             ),
 
             const SizedBox(height: 20),
-
-            // =================================================
-            // SELECT IMAGE BUTTON
-            // =================================================
             SizedBox(
               height: 55,
 
@@ -355,10 +256,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
             ),
 
             const SizedBox(height: 12),
-
-            // =================================================
-            // CLEAR BUTTON
-            // =================================================
             if (_selectedImage != null)
               SizedBox(
                 height: 50,
@@ -373,10 +270,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
               ),
 
             if (_selectedImage != null) const SizedBox(height: 12),
-
-            // =================================================
-            // UPLOAD BUTTON
-            // =================================================
             SizedBox(
               height: 55,
 
@@ -405,10 +298,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
             ),
 
             const SizedBox(height: 30),
-
-            // =================================================
-            // UPLOADED IMAGE
-            // =================================================
             if (_uploadedImageUrl != null) ...[
               const Divider(),
 
@@ -449,9 +338,6 @@ class _CloudinaryUploadPageState extends State<CloudinaryUploadPage> {
 
               const SizedBox(height: 20),
 
-              // =================================================
-              // CLOUDINARY URL
-              // =================================================
               const Text(
                 'Cloudinary URL',
 

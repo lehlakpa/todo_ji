@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_ji/models/on_boading_model.dart';
 import 'package:todo_ji/models/onborading.dart';
 
@@ -39,16 +40,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
   ];
 
-  void nextPage() {
-    if (currentPage < pages.length - 1) {
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      // Navigate to login/home
-      debugPrint('Get Started');
-    }
+  void nextPage() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('firstTime', false);
+    prefs.setString("name", "lakpa");
+    // if (currentPage < pages.length - 1) {
+    //   _pageController.nextPage(
+    //     duration: const Duration(milliseconds: 400),
+    //     curve: Curves.easeInOut,
+    //   );
+    // } else {
+    //   // Navigate to login/home
+    //   debugPrint('Get Started');
+    // }
   }
 
   void skip() {

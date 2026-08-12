@@ -98,7 +98,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                     const SnackBar(content: Text('Processing Data')),
                   );
                 }
-                context.read<TaskProviders>().addtask(
+                context.read<TaskProviders>().addTask(
                   id: DateTime.now().microsecondsSinceEpoch,
                   title: _titleController.text.trim(),
                   description: _descriptionController.text.trim(),

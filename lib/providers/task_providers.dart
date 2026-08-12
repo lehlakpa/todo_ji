@@ -1,4 +1,5 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:todo_ji/models/task_models.dart';
 
@@ -53,21 +54,32 @@ class TaskProviders extends ChangeNotifier {
     return allTasks.where((t) => t.isdone).toList();
   }
 
-  void addtask({
+  Future<void> addTask({
     required int id,
     required String title,
     required String? description,
     required bool isdone,
-  }) {
-    allTasks.add(
-      TaskModels(
-        id: id,
-        title: title,
-        description: description ?? "",
-        isdone: isdone,
-      ),
+  }) async {
+    final newTask = TaskModels(
+      id: id,
+      title: title,
+      description: description ?? "",
+      isdone: isdone,
     );
-    notifyListeners();
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('tasks')
+          .doc(newTask.id.toString())
+          .set(newTask.toJson());
+
+      allTasks.add(newTask);
+      notifyListeners();
+
+      print("Task saved successfully!");
+    } catch (e) {
+      print("Firebase error: $e");
+    }
   }
 
   void deleteTask(int id) {
