@@ -38,7 +38,6 @@ class AuthProvider extends ChangeNotifier {
           "createdAt": FieldValue.serverTimestamp(),
         });
       }
-
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

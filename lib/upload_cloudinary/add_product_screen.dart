@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_ji/upload_cloudinary/product_data.dart';
 import 'package:todo_ji/upload_cloudinary/products_provider.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -93,10 +94,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
     }
   }
 
-  // ============================================================
-  // SNACKBAR
-  // ============================================================
-
   void showMessage(String message) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
@@ -112,13 +109,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
     super.dispose();
   }
 
-  // ============================================================
-  // UI
-  // ============================================================
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (context) => ProductData()));
+        },
+        child: const Icon(Icons.add),
+      ),
+
       appBar: AppBar(title: const Text('Add Product')),
 
       body: Consumer<ProductProvider>(
@@ -130,9 +132,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
 
               children: [
-                // ==================================================
-                // IMAGE
-                // ==================================================
                 GestureDetector(
                   onTap: provider.isLoading ? null : pickImage,
 

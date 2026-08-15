@@ -92,6 +92,14 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
+  Stream<List<ProductsModel>> getProductsStream() {
+    return _firestore.collection('products').snapshots().map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return ProductsModel.fromMap(doc.data(), doc.id);
+      }).toList();
+    });
+  }
+
   Future<bool> deleteProduct(String productId) async {
     try {
       _isLoading = true;

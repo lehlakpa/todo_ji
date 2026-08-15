@@ -22,8 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void init() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool firstTime = prefs.getBool('firstTime') ?? true;
-    final name = prefs.getString('name');
-    print(name);
+    // final name = prefs.getString('name');
+    // print(name);
 
     if (firstTime) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
